@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path, HTTPException
+from fastapi import FastAPI, Path
 from enum import IntEnum
 
 from functions import plan_lookup, fee_calculator
