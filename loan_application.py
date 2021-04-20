@@ -10,13 +10,18 @@ class RepaymentOptions(IntEnum):
 
 
 class LoanApplication:
+    """Creates a loan application"""    
     def __init__(self, repay_period, amount):
         self.repay_period = repay_period
         self.amount = round(amount, 2)
 
     def fee(self):
-        """Function to calculate fee for chosen loan amount and repayment plan"""
-        fee_set = fee_sets[str(self.repay_period)]
+        """Calculates the fee for a loan application, based off
+        relevant fee set."""
+        try:
+            fee_set = fee_sets[str(self.repay_period)]
+        except:
+            return None
         for i in range(1, len(fee_set)):
             if fee_set[i-1]["amount"] <= self.amount <= fee_set[i]["amount"]:
                 # interpolate fee (linearly) from given interval

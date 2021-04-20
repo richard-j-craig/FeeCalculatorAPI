@@ -1,3 +1,4 @@
+"""Fee sets corresponding to repayment periods in months"""
 
 fee_sets = {
     "12": [

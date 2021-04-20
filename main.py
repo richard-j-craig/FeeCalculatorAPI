@@ -13,7 +13,7 @@ async def fee_finder(
     amount: float = Path(..., 
             title="Monetary amount requested (£)", ge=1000, le=20000),
 ):
-    """API to eturn a fee for a given repayment period and loan amount"""
+    """Return a fee for a given repayment period and loan amount"""
     loan_app = LoanApplication(int(repay_period), amount)
     fee = loan_app.fee()
     return {"fee": fee}
