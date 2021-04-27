@@ -26,13 +26,11 @@ def get_db():
 async def fee_finder(repay_period: int, amount: float, db: Session = Depends(get_db)):
     """Return a fee for a given repayment period and loan amount"""
     loan_app = LoanApplication(int(repay_period), amount)
-    db.add(loan_app)
-    db.commit()
     return {"fee": loan_app.fee}
 
 @app.post("/loan_app")
 async def fee_calc(repay_period: int, amount: float, db: Session = Depends(get_db)):
-    """submit loan application"""
+    """Submit loan application"""
     loan_app = LoanApplication(int(repay_period), amount)
     db.add(loan_app)
     db.commit()
@@ -40,6 +38,7 @@ async def fee_calc(repay_period: int, amount: float, db: Session = Depends(get_d
 
 @app.get("/all_loan_apps")
 async def show_all_loan_apps():
-        db = SessionLocal()
-        loan_apps = db.query(LoanApplication).all()
-        return loan_apps
+    """View all loan applications"""
+    db = SessionLocal()
+    loan_apps = db.query(LoanApplication).all()
+    return loan_apps
