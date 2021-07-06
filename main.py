@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path, Depends
+from fastapi import FastAPI, Path, Depends, Form
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,7 +23,7 @@ def get_db():
         db.close
 
 @app.get("/{repay_period}/{amount}")
-async def fee_finder(repay_period: int, amount: float, db: Session = Depends(get_db)):
+async def fee_finder(repay_period: int, amount: float):
     """Return a fee for a given repayment period and loan amount"""
     loan_app = LoanApplication(int(repay_period), amount)
     return {"fee": loan_app.fee}
@@ -37,8 +37,7 @@ async def fee_calc(repay_period: int, amount: float, db: Session = Depends(get_d
     return {"message": "Loan application received."}
 
 @app.get("/all_loan_apps")
-async def show_all_loan_apps():
+async def show_all_loan_apps(db: Session = Depends(get_db)):
     """View all loan applications"""
-    db = SessionLocal()
     loan_apps = db.query(LoanApplication).all()
     return loan_apps
